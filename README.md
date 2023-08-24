@@ -4,6 +4,9 @@ contracts that Hardhat does. However, doing so is still very possible.
 In this repo, I've collected examples of how to deal with proxies in
 Foundry.
 
+The `src` and `test` directories contain some examples of manipulating
+proxies in tests.
+
 ## Intuition
 TransparentProxy is deployed by a ProxyAdmin contract. The owner of the
 implementation contract's functions and the owner of ProxyAdmin are the
@@ -42,5 +45,5 @@ cast call --rpc-url $OP_URL --private-key $PRIVATE_KEY $PROXY_ADMIN "upgrade(${P
 ```
 
 ## notes
+The `src` directory contains 
 https://github.com/MatinR1/UpgradeableTest/tree/master
-
