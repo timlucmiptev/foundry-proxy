@@ -18,15 +18,29 @@ same.
 The below example uses Hardhat on Optimism.
 
 1. Deploy the new implementation contract and get its address
-2. Get the address of the `ProxyAdmin`, as in example below
-3. Call `upgrade(PROXY_ADDR, IMPL_ADDR)` on the `ProxyAdmin`
+2. Get the address of the `ProxyAdmin`, as below
+3. Call `upgrade(PROXY_ADDR, IMPL_ADDR)` on the `ProxyAdmin`, as below
+
+### Getting the ProxyAdmin address
+Use `cast storage` to get the variable in Proxy's storage slot that
+stores the `ProxyAdmin`'s address:
 ```
-const proxyAddress = '0x10948Fd0beBb798d5eeb315c00B747D6436173b7'
-const adminStorageSlot = '0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103'
-await hre.ethers.provider.getStorage(proxyAddress, adminStorageSlot)
+export OP_URL=$(pass keys/alchemy/optimism/endpoint)
+export CONTRACT=0x10948Fd0beBb798d5eeb315c00B747D6436173b7 
+export PROXY_ADMIN_SLOT=0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+export PROXY_ADMIN=$(cast storage --rpc-url $OP_URL $CONTRACT $PROXY_ADMIN_SLOT | cut -c 1-2,27-)
+echo $PROXY_ADMIN
+```
+
+### Calling upgrade on ProxyAdmin
+Using the environment already set above. `$PRIVATE_KEY` is the owner of the `ProxyAdmin`.
+```
+export PRIVATE_KEY="
+export IMPL_CONTRACT="
+export PROXY_CONTRACT="
+cast call --rpc-url $OP_URL --private-key $PRIVATE_KEY $PROXY_ADMIN "upgrade(${PROXY_CONTRACT},${IMPL_CONTRACT})"
 ```
 
 ## notes
-implementing this repo:
 https://github.com/MatinR1/UpgradeableTest/tree/master
 
