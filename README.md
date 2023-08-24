@@ -4,8 +4,11 @@ contracts that Hardhat does. However, doing so is still very possible.
 In this repo, I've collected examples of how to deal with proxies in
 Foundry.
 
+This uses `TransparentProxy` for now, with the `ProxyAdmin` contract
+that it requires.
+
 The `src` and `test` directories contain some examples of manipulating
-proxies in tests.
+UUPS proxies in tests.
 
 ## Intuition
 TransparentProxy is deployed by a ProxyAdmin contract. The owner of the
