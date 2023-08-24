@@ -1,71 +1,33 @@
+# Proxies in Foundry: Example Code
+Foundry does not have the tools for interacting with Ethereum proxy
+contracts that Hardhat does. However, doing so is still very possible.
+In this repo, I've collected examples of how to deal with proxies in
+Foundry.
 
-## specific notes
+## Intuition
+TransparentProxy is deployed by a ProxyAdmin contract. The owner of the
+implementation contract's functions and the owner of ProxyAdmin are the
+same.
+
+### deploying
+1. Deploy a `ProxyAdmin` instance, with your wallet as `admin`
+2. Deploy the implementation contract and get its address
+3. Deploy the TransparentProxy, setting the ProxyAdmin as the admin
+
+### upgrading
+The below example uses Hardhat on Optimism.
+
+1. deploy the new implementation contract and get its address
+2. get the address of the `ProxyAdmin`
+```
+const proxyAddress = '0x10948Fd0beBb798d5eeb315c00B747D6436173b7'
+const adminStorageSlot = '0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103'
+await hre.ethers.provider.getStorageAt(proxyAddress, adminStorageSlot)
+```
+
+
+
+## notes
 implementing this repo:
 https://github.com/MatinR1/UpgradeableTest/tree/master
 
-## Foundry
-
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
