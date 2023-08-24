@@ -17,15 +17,14 @@ same.
 ### upgrading
 The below example uses Hardhat on Optimism.
 
-1. deploy the new implementation contract and get its address
-2. get the address of the `ProxyAdmin`
+1. Deploy the new implementation contract and get its address
+2. Get the address of the `ProxyAdmin`, as in example below
+3. Call `upgrade(PROXY_ADDR, IMPL_ADDR)` on the `ProxyAdmin`
 ```
 const proxyAddress = '0x10948Fd0beBb798d5eeb315c00B747D6436173b7'
 const adminStorageSlot = '0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103'
-await hre.ethers.provider.getStorageAt(proxyAddress, adminStorageSlot)
+await hre.ethers.provider.getStorage(proxyAddress, adminStorageSlot)
 ```
-
-
 
 ## notes
 implementing this repo:
